@@ -29,7 +29,7 @@ public class PricePerPerson : BaseEntity
 
 public class BedDiscount : BaseEntity
 {
-    public int Beds { get; set; }
+    public int Bed { get; set; }
     public int GuestAgeFrom { get; set; }
     public int GuestAgeTo { get; set; }
     public int DiscountInPercents { get; set; }

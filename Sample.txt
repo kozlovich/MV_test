@@ -1,0 +1,109 @@
+Data: 
+
+[
+    {
+        "facilities": [
+            {
+                "numberOfBeds": 3,
+                "pricesPerPerson": [
+                    {
+                        "price": 100,
+                        "validFrom": "2025-01-11T00:00:00+01:00",
+                        "validTo": "2025-01-20T00:00:00+01:00",
+                        "created": "2025-01-09T00:00:00+01:00",
+                        "id": 0
+                    }
+                ],
+                "bedDiscounts": [
+                    {
+                        "bed": 1,
+                        "guestAgeFrom": 18,
+                        "guestAgeTo": 99,
+                        "discountInPercents": 10,
+                        "created": "2025-01-09T00:00:00+01:00",
+                        "id": 0
+                    },
+                    {
+                        "bed": 2,
+                        "guestAgeFrom": 18,
+                        "guestAgeTo": 99,
+                        "discountInPercents": 10,
+                        "created": "2025-01-09T00:00:00+01:00",
+                        "id": 0
+                    },
+                    {
+                        "bed": 3,
+                        "guestAgeFrom": 0,
+                        "guestAgeTo": 17,
+                        "discountInPercents": 20,
+                        "created": "2025-01-09T00:00:00+01:00",
+                        "id": 0
+                    }
+                ],
+                "promotions": [
+                    {
+                        "discountInPercents": 20,
+                        "validFrom": "2025-01-11T00:00:00+01:00",
+                        "validTo": "2025-01-12T00:00:00+01:00",
+                        "created": "2025-01-09T00:00:00+01:00",
+                        "id": 0
+                    }
+                ],
+                "id": 1
+            }
+        ],
+        "id": 1
+    }
+]
+
+Case 1: 
+ 
+https://localhost:7025/api/Search?GuestAges=70&GuestAges=70&GuestAges=10&Arrival=11.01.2025&Departure=13.01.2025
+
+[
+    {
+        "accomodationId": 1,
+        "facilityId": 1,
+        "price": 676,
+        "priceWithoutDiscounts": 900
+    }
+]
+
+Case 2:
+
+https://localhost:7025/api/Search?GuestAges=70&GuestAges=70&Arrival=11.01.2025&Departure=13.01.2025
+
+[
+    {
+        "accomodationId": 1,
+        "facilityId": 1,
+        "price": 468,
+        "priceWithoutDiscounts": 600
+    }
+]
+
+Case 3: 
+
+https://localhost:7025/api/Search?GuestAges=70&GuestAges=10&Arrival=11.01.2025&Departure=13.01.2025
+
+[
+    {
+        "accomodationId": 1,
+        "facilityId": 1,
+        "price": 494,
+        "priceWithoutDiscounts": 600
+    }
+]
+
+Case 4: 
+
+https://localhost:7025/api/Search?GuestAges=20&Arrival=11.01.2025&Departure=13.01.2025
+
+[
+    {
+        "accomodationId": 1,
+        "facilityId": 1,
+        "price": 234,
+        "priceWithoutDiscounts": 300
+    }
+]

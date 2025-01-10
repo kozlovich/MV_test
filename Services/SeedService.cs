@@ -17,6 +17,8 @@ public class SeedService : ISeedService
 
     private List<Accomodation> Seed()
     {
+        return SimpleSeed();
+
         Random random = new Random();
 
         var list = new List<Accomodation>();
@@ -28,10 +30,11 @@ public class SeedService : ISeedService
             var facilities = new List<Facility>();
             for (int j = 1; j <= 5; j++)
             {
+                int numberOfBeds = random.Next(2, 4);
                 Facility facility = new Facility
                 {
                     Id = j,
-                    NumberOfBeds = random.Next(2, 4)
+                    NumberOfBeds = numberOfBeds
                 };
 
                 // Generate PricePerPerson
@@ -55,16 +58,16 @@ public class SeedService : ISeedService
                 List<BedDiscount> bedDiscounts = new();
                 Dictionary<int, int> agePairs = new Dictionary<int, int>
                 {
-                    { 0, 18 },
-                    { 65, 99 }
+                    { 18, 99 },
+                    { 0, 17 }
                 }; 
 
-                for (int k = 1; k <= agePairs.Count; k++)
+                for (int k = 1; k <= numberOfBeds; k++)
                 {
                     var bedDiscount = new BedDiscount
                     {
                         Id = k,
-                        Beds = random.Next(2, 4),
+                        Bed = k,
                         GuestAgeFrom = agePairs.ElementAt(k - 1).Key,
                         GuestAgeTo = agePairs.ElementAt(k - 1).Value,
                         DiscountInPercents = random.Next(15, 25),
@@ -100,6 +103,19 @@ public class SeedService : ISeedService
         }
 
         return list;
+    }
+
+    private List<Accomodation> SimpleSeed()
+    {
+        Accomodation accomodation = new Accomodation { Id = 1 };
+        Facility facility = new Facility { Id = 1, NumberOfBeds = 3 };
+        facility.BedDiscounts.Add(new BedDiscount { Bed = 1, GuestAgeFrom = 18, GuestAgeTo = 99, DiscountInPercents = 10, Created = DateTime.Today.AddDays(-1) });
+        facility.BedDiscounts.Add(new BedDiscount { Bed = 2, GuestAgeFrom = 18, GuestAgeTo = 99, DiscountInPercents = 10, Created = DateTime.Today.AddDays(-1) });
+        facility.BedDiscounts.Add(new BedDiscount { Bed = 3, GuestAgeFrom = 0, GuestAgeTo = 17, DiscountInPercents = 20, Created = DateTime.Today.AddDays(-1) });
+        facility.PricesPerPerson.Add(new PricePerPerson { Price = 100, ValidFrom = DateTime.Today.AddDays(1), ValidTo = DateTime.Today.AddDays(10), Created = DateTime.Today.AddDays(-1) });
+        facility.Promotions.Add(new Promotion {  ValidFrom = DateTime.Today.AddDays(1), ValidTo = DateTime.Today.AddDays(2), DiscountInPercents = 20, Created = DateTime.Today.AddDays(-1) });
+        accomodation.Facilities.Add(facility);
+        return new List<Accomodation> { accomodation };
     }
 
     public List<Accomodation> GetSeededData()

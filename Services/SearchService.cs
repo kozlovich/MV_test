@@ -101,14 +101,16 @@ public class SearchService : ISearchService
         int totalDays = (int)searchParameters.Departure.Subtract(searchParameters.Arrival).TotalDays;
         for (int i = 0; i <= totalDays; i++)
         {
-            var discountMultiplier = 1.0f;
             var currentDate = searchParameters.Arrival.AddDays(i);
-
+            
             float[] multipliers = new float[searchParameters.GuestAges.Count()];
+
             for (int j = 0; j < searchParameters.GuestAges.Count(); j++)
             {
-                var guestAge = searchParameters.GuestAges[j];
-                var bedDiscount = bedDiscounts.Where(x => x.GuestAgeFrom <= guestAge && guestAge <= x.GuestAgeTo).OrderByDescending(o => o.Created).FirstOrDefault();
+                float discountMultiplier = 1.0f;
+                int guestAge = searchParameters.GuestAges[j];
+                int bed = j + 1;
+                var bedDiscount = bedDiscounts.Where(x => x.Bed == bed && x.GuestAgeFrom <= guestAge && guestAge <= x.GuestAgeTo).OrderByDescending(o => o.Created).FirstOrDefault();
                 if (bedDiscount != null)
                 {
                     discountMultiplier = (100 - bedDiscount.DiscountInPercents) / 100f;
